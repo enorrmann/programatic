@@ -4,30 +4,54 @@ app.controller("myCtrl", function($scope) {
     const max_pads = 8;
     const max_tracks = 6;
     const max_steps = 16;
-    var editMode = false;
-    const duration = 1;
+    var playMode = false;
 
     //const notes = ['c3', 'd3', 'e3', 'f3', 'g3', 'a3', 'b3'];
     const notes = ['CM', 'Dm', 'Em', 'FM', 'GM', 'Am', 'Bm'];
-    $scope.controls = [{ id: 1 }, { id: 2 }];
+    $scope.controls = [{
+            id: 1,
+            name: 'fullscreen',
+            state: 0,
+            values: [0, 1]
+        },
+        {
+            id: 2,
+            name: 'mode',
+            state: 0,
+            values: ['select', 'play']
+        },
+        {
+            id: 3,
+            name: 'noteLength',
+            state: 0,
+            values: [1, 2, 4]
+        }
+    ];
 
+    var getControlValue = function(controlName) {
+        var control = $scope.controls.filter(function(control) { return control.name == controlName })[0];
+        return control.values[control.state];
+    }
 
 
     $scope.clickedControl = function(event) {
         var control = event.control;
-        changeState(control);
+        cycleState(control);
         switch (control.id) {
             case 1:
                 document.documentElement.webkitRequestFullScreen();
                 break;
             case 2:
-                editMode = !editMode;
+                playMode = control.state == 1;
                 break;
         }
 
     }
 
     var setStepDuration = function(track, step) {
+
+        var duration = getControlValue('noteLength');
+        console.log(duration);
         var nextScribble = ''
         var nextState = 0;
 
@@ -57,14 +81,23 @@ app.controller("myCtrl", function($scope) {
         } else {
             something.state = 0;
         }
+    }
 
+    var cycleState = function(control) {
+        var currentState = control.state;
+        if (currentState < control.values.length - 1) {
+            control.state++;
+        } else {
+            control.state = 0;
+        }
     }
 
     $scope.selectPad = function(event) {
         if ($scope.selectedPad) {
             $scope.selectedPad.selected = false;
         }
-        if (!editMode) {
+
+        if (playMode) { // in edit mode we send program changes
             changeState(event.pad);
             var activePads = $scope.pads.filter(function(pad) { return pad.state == 1 });
             sendMessage(JSON.stringify(activePads));

@@ -107,6 +107,10 @@
             background-color: rgb(168, 0, 0);
         }
         
+        .selected {
+            border: 2px solid red;
+        }
+        
         .title h2 {
             font-size: 12px;
             font-weight: 700;
@@ -133,7 +137,7 @@
         <div class='grid-cell grid-6' ng-repeat="control in controls">
             <div class='square one square-100 control-{{control.state}}' ng-click="clickedControl(this)">
                 <div class='title'>
-                    <h2>{{control.state}}</h2>
+                    <h2>{{control.values[control.state]}}</h2>
                 </div>
             </div>
         </div>
@@ -144,7 +148,7 @@
     <!-- pads 125 -->
     <div class='grid'>
         <div class='grid-cell grid-12' ng-repeat="pad in pads">
-            <div class='square one square-100 state-{{pad.state}}' ng-click="selectPad(this)">
+            <div class='square one square-100 state-{{pad.state}}' ng-class="pad.selected?'selected':''" ng-click="selectPad(this)">
                 <div class='title'>
                     <h2>chan:{{pad.channel+1}} {{pad.selected}}</h2>
                 </div>
