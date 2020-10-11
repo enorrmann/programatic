@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html {
+            box-sizing: border-box;
+        }
+        
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+        
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .square {
+            height: 0;
+        }
+        
+        .square-100 {
+            width: 100%;
+            padding-bottom: 100%;
+        }
+        
+        .square {
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            background-color: #eee;
+        }
+        
+        .grid {
+            display: block;
+            padding: 0;
+            margin: 0 -6px 12px;
+            text-align: left;
+            font-size: 0;
+        }
+        
+        .grid-cell {
+            display: inline-block;
+            margin: 0;
+            padding: 0 6px;
+            text-align: left;
+            vertical-align: top;
+            width: 100%;
+            font-size: 16px;
+        }
+        
+        .grid-6 {
+            width: 6.25%;
+        }
+        
+        .grid-12 {
+            width: 12.5%;
+        }
+        
+        .grid-25 {
+            width: 25%;
+        }
+        
+        .grid-33 {
+            width: 33.333333%;
+        }
+        
+        .grid-50 {
+            width: 50%;
+        }
+        
+        body {
+            background: #ffffff;
+            padding: 1px;
+            font-size: 0;
+        }
+        
+        .square {
+            overflow: hidden;
+            border-radius: 8px;
+            background-size: cover;
+            background-color: rgb(22, 81, 100);
+            box-shadow: 0 3px 12px rgba(37, 34, 67, 0.9);
+        }
+        
+        .state-0 {
+            background-color: lightblue;
+        }
+        
+        .state-1 {
+            background-color: rgb(80, 231, 75);
+        }
+        
+        .state-2 {
+            background-color: rgb(52, 145, 49);
+        }
+        
+        .control-0 {
+            background-color: rgb(0, 0, 0);
+        }
+        
+        .control-1 {
+            background-color: rgb(168, 0, 0);
+        }
+        
+        .title h2 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 1px rgba(0, 0, 0, 0.6);
+            background: linear-gradient(rgba(37, 34, 67, 0), rgba(37, 34, 67, 0.8));
+            margin: 0;
+            padding: 36px 12px 12px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="socket.js"></script>
+    <script src="angularController.js"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+    <!-- controls 125 -->
+    <div class='grid'>
+        <div class='grid-cell grid-6' ng-repeat="control in controls">
+            <div class='square one square-100 control-{{control.state}}' ng-click="clickedControl(this)">
+                <div class='title'>
+                    <h2>{{control.state}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / controls 125 -->
+
+
+    <!-- pads 125 -->
+    <div class='grid'>
+        <div class='grid-cell grid-12' ng-repeat="pad in pads">
+            <div class='square one square-100 state-{{pad.state}}' ng-click="selectPad(this)">
+                <div class='title'>
+                    <h2>chan:{{pad.channel+1}} {{pad.selected}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / pads 125 -->
+
+    <!-- steps 125 -->
+    <div class='grid' ng-repeat="track in selectedPad.tracks">
+        <div class='grid-cell grid-6' ng-repeat="step in track.steps">
+            <div class='square one square-100 state-{{step.state}}' ng-click="clickedStep(track,step)">
+                <div class='title'>
+                    <h2>{{step.id}} {{track.note}} {{step.scribble}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / steps 125 -->
+</body>
+
+</html>

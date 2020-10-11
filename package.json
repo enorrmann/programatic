@@ -1,0 +1,17 @@
+{
+    "name": "prog1",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon server.js -e js,html"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "jsmidgen": "^0.1.5",
+        "scribbletune": "^3.15.0",
+        "ws": "^7.3.1"
+    }
+}

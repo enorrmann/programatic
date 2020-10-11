@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .square {
+            height: 50px;
+            width: 50px;
+            background-color: #555;
+        }
+    </style>
+
+    <script>
+        // Crea una nueva conexión.
+        const socket = new WebSocket('ws://localhost:8080');
+
+        // Abre la conexión
+        socket.addEventListener('open', function(event) {
+            socket.send('Hello Server!');
+        });
+
+        // Escucha por mensajes
+        socket.addEventListener('message', function(event) {
+            console.log('Message from server', event.data);
+        });
+
+        var clicked = function(index) {
+            socket.send('click' + index);
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <h2>Square CSS</h2>
+    <div onclick="clicked(1)" class="square"></div>
+    <br/>
+    <div onclick="clicked(2)" class="square"></div>
+
+</body>
+
+</html>
