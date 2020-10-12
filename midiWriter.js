@@ -5,9 +5,10 @@ const createFileFromNotes = (channelClip) => {
     const file = new jsmidgen.File();
     var tracks = [];
     var bpm = 120;
+    const numTracks = 80;
 
-    // always 8 channels for compatibility with jack player reload
-    for (i = 0; i < 80; i++) {
+    // always fixed amount of trackas for compatibility with jack player reload
+    for (i = 0; i < numTracks; i++) {
         tracks.push(new jsmidgen.Track());
         var track = tracks[i];
         track.setTempo(bpm);

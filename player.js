@@ -20,13 +20,20 @@ var generate = function(message) {
 
         pad.tracks.forEach(function(track, index) {
             var pattern = toScribble(track.steps);
-            var notes = scribble.arp(track.note);
-            //var notes = track.note;
-            console.log(notes);
-            console.log(pattern);
+
+            var mode = track.mode;
+            var subdiv = track.subdiv ? track.subdiv : '8n';
+
+            if (mode == 'arp') {
+                var notes = scribble.arp(track.chord);
+            } else {
+                var notes = track.note;
+            }
+
+
             var clip = scribble.clip({
                 notes: notes,
-                subdiv: '8n',
+                subdiv: subdiv,
                 pattern: pattern
             });
             var channelClip = {

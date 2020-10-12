@@ -4,10 +4,11 @@ app.controller("myCtrl", function($scope) {
     const max_pads = 8;
     const max_tracks = 6;
     const max_steps = 16;
+
     var playMode = false;
 
-    //const notes = ['c3', 'd3', 'e3', 'f3', 'g3', 'a3', 'b3'];
-    const notes = ['CM', 'Dm', 'Em', 'FM', 'GM', 'Am', 'Bm'];
+    const notes = ['c3', 'd3', 'e3', 'f3', 'g3', 'a3', 'b3'];
+    const chords = ['CM', 'Dm', 'Em', 'FM', 'GM', 'Am', 'Bm'];
     $scope.controls = [{
             id: 1,
             name: 'fullscreen',
@@ -24,7 +25,20 @@ app.controller("myCtrl", function($scope) {
             id: 3,
             name: 'noteLength',
             state: 0,
-            values: [1, 2, 4]
+            values: [1, 2, 4, 8]
+        },
+        {
+            id: 4,
+            name: 'trackMode',
+            state: 0,
+            values: ['note', 'arp']
+        },
+
+        {
+            id: 5,
+            name: 'subdiv',
+            state: 3,
+            values: ['1n', '2n', '4n', '8n', '16n']
         }
     ];
 
@@ -51,7 +65,12 @@ app.controller("myCtrl", function($scope) {
     var setStepDuration = function(track, step) {
 
         var duration = getControlValue('noteLength');
-        console.log(duration);
+        var trackMode = getControlValue('trackMode');
+        var subdiv = getControlValue('subdiv');
+
+        track.mode = trackMode;
+        track.subdiv = subdiv;
+
         var nextScribble = ''
         var nextState = 0;
 
@@ -128,6 +147,7 @@ app.controller("myCtrl", function($scope) {
             var track = {
                 id: j,
                 note: notes[8 - j - 1],
+                chord: chords[8 - j - 1],
                 steps: []
             }
 
